@@ -4,8 +4,8 @@
 
 실행 하기 전 주의 사항
 프로젝트 파일에 다음의 폴더를 생성해 주세요.
-extract_audio/
-extract_audio/output0
-extract_audio/output1
-input/
-result/
+* extract_audio/
+* extract_audio/output0
+* extract_audio/output1
+* input/
+* result/

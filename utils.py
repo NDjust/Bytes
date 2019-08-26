@@ -9,11 +9,16 @@ def delete_data_files(entire_audio_file_path, filename_extension):
     if os.path.isfile('/extract_audio/' + entire_audio_file_path):
         os.remove('/extract_audio/'+entire_audio_file_path)
 
+    if os.path.isfile('profane_detector_result.txt'):
+        os.remove('profane_detector_result.txt')
+
     file_list_0 = os.listdir('extract_audio/output0')
     file_list_1 = os.listdir('extract_audio/output1')
+    file_list_2 = os.listdir('result_detector/')
 
     file_list_0 = [name for name in file_list_0 if name.endswith(filename_extension)]
     file_list_1 = [name for name in file_list_1 if name.endswith(filename_extension)]
+    file_list_2 = [name for name in file_list_2 if name.endswith(filename_extension)]
 
     for val in file_list_0:
         os.remove('extract_audio/output0/' + val)
@@ -21,7 +26,8 @@ def delete_data_files(entire_audio_file_path, filename_extension):
     for val in file_list_1:
         os.remove('extract_audio/output1/' + val)
 
-
+    for val in file_list_2:
+        os.remove('result_detector/' + val)
 
 def extract_audio_in_video(video_path, output_audio_path):
     '''
@@ -59,8 +65,8 @@ def divide_audio(audio_path):
 
     #두번 째 작업
     for i in range(segment_count):
-        audio_divided = audio[i * segment_len * 1000 + 10000:i * segment_len * 1000 + segment_len * 1000 + 10000]
-        path_and_startend_1 += [['extract_audio/output1/output1_' + str(i) + '.wav', i * segment_len + 10, i * segment_len + segment_len + 10]]
+        audio_divided = audio[i * segment_len * 1000 + 5000:i * segment_len * 1000 + segment_len * 1000 + 5000]
+        path_and_startend_1 += [['extract_audio/output1/output1_' + str(i) + '.wav', i * segment_len + 5, i * segment_len + segment_len + 5]]
         audio_divided.export('extract_audio/output1/output1_' + str(i) + '.wav', format='wav')
 
     return path_and_startend_0, path_and_startend_1
@@ -85,3 +91,22 @@ def combine_audio_and_video(video_path):
     :return:
     '''
     return os.system('ffmpeg -y -i ' + video_path + ' -i result/audio_result.wav -c:v copy -c:a aac -strict experimental -map 0:v:0 -map 1:a:0 result/result.mp4')
+
+def get_all_data():
+    file_list_0 = os.listdir('result_detector/')
+
+    file_list_0 = [name for name in file_list_0 if name.endswith('txt')]
+
+    all_result = []
+    for path in file_list_0:
+        f = open('result_detector/' + path, 'r')
+        result = f.read().split()
+
+        for i, val in enumerate(result):
+            result[i] = val.split(',')
+            result[i][0] = float(result[i][0])
+            result[i][1] = float(result[i][1])
+
+        all_result += result
+
+    return all_result

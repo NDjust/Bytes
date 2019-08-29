@@ -6,8 +6,8 @@ def delete_data_files(entire_audio_file_path, filename_extension):
     :param entire_audio_file_path: 전체 오디오 파일의 이름과 확장자를 포함한 오디오 경로입니다.
     :param filename_extension: 오디오 파일들의 기본 파일형식 입니다. 예)wav, mp3
     '''
-    if os.path.isfile('/extract_audio/' + entire_audio_file_path):
-        os.remove('/extract_audio/'+entire_audio_file_path)
+    if os.path.isfile(entire_audio_file_path):
+        os.remove(entire_audio_file_path)
 
     if os.path.isfile('profane_detector_result.txt'):
         os.remove('profane_detector_result.txt')
@@ -15,10 +15,12 @@ def delete_data_files(entire_audio_file_path, filename_extension):
     file_list_0 = os.listdir('extract_audio/output0')
     file_list_1 = os.listdir('extract_audio/output1')
     file_list_2 = os.listdir('result_detector/')
+    file_list_3 = os.listdir('result/')
 
     file_list_0 = [name for name in file_list_0 if name.endswith(filename_extension)]
     file_list_1 = [name for name in file_list_1 if name.endswith(filename_extension)]
-    file_list_2 = [name for name in file_list_2 if name.endswith(filename_extension)]
+    file_list_2 = [name for name in file_list_2 if name.endswith('txt')]
+
 
     for val in file_list_0:
         os.remove('extract_audio/output0/' + val)
@@ -28,6 +30,9 @@ def delete_data_files(entire_audio_file_path, filename_extension):
 
     for val in file_list_2:
         os.remove('result_detector/' + val)
+
+    for val in file_list_3:
+        os.remove('result/' + val)
 
 def extract_audio_in_video(video_path, output_audio_path):
     '''

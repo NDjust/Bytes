@@ -4,7 +4,7 @@ import threading
 import profane_recognizer
 import threading
 
-input_video = 'input/test0.mp4'
+input_video = 'input/test2.mp4'
 
 if __name__ == '__main__':
     print('Reset all data files')

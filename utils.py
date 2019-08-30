@@ -14,7 +14,10 @@ def delete_data_files(entire_audio_file_path, filename_extension):
 
     file_list_0 = os.listdir('extract_audio/output0')
     file_list_1 = os.listdir('extract_audio/output1')
-    file_list_2 = os.listdir('result_detector/')
+    if 'result_detector' not in os.listdir('./'):
+        os.mkdir("./result_detector")
+        file_list_2 = os.listdir('result_detector/')
+    else:file_list_2 = os.listdir('result_detector/')
     file_list_3 = os.listdir('result/')
 
     file_list_0 = [name for name in file_list_0 if name.endswith(filename_extension)]
